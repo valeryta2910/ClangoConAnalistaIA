@@ -1,0 +1,6 @@
+.envoltorio { position: relative; border-radius: 20px; overflow: hidden; border: 1px solid var(--borde); min-height: 260px; background: #0b1220; box-shadow: 0 10px 40px rgba(0,0,0,.35); }
+.mapa { position: absolute; inset: 0; }
+/* Filtro para que el mapa de OpenStreetMap se vea oscuro y combine con la interfaz */
+.mapa :global(.leaflet-tile-pane) { filter: invert(1) hue-rotate(180deg) brightness(.9) contrast(.88) saturate(.55); }
+.fab { position: absolute; top: 14px; right: 14px; z-index: 500; width: 44px; height: 44px; border-radius: 14px; background: rgba(13,20,36,.9); border: 1px solid var(--borde); font-size: 20px; backdrop-filter: blur(8px); transition: transform .2s, background .2s; }
+.fab:hover { transform: scale(1.1); background: var(--verde); }

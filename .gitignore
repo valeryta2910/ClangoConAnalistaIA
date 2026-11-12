@@ -1,0 +1,6 @@
+node_modules
+dist
+
+# Archivos que NUNCA deben subirse a GitHub
+.vercel
+.env*.local

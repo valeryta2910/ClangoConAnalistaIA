@@ -1,0 +1,12 @@
+/* src/componentes/TarjetaItem.module.css */
+.cardContainer { background: linear-gradient(160deg, #1e293b, #172033); border: 1px solid #334155; padding: 1.4rem; border-radius: 16px; color: #f8fafc; transition: transform .25s, border-color .25s, box-shadow .25s; position: relative; overflow: hidden; }
+.cardContainer::before { content: ''; position: absolute; inset: 0 0 auto 0; height: 3px; background: linear-gradient(90deg, #22c55e, #38bdf8); transform: scaleX(0); transform-origin: left; transition: transform .4s; }
+.cardContainer:hover { transform: translateY(-5px); border-color: #38bdf8; box-shadow: 0 16px 36px rgba(0,0,0,.4); }
+.cardContainer:hover::before { transform: scaleX(1); }
+.cardTitle { font-size: 0.85rem; color: #94a3b8; display: block; margin-bottom: 0.5rem; }
+.cardValue { font-size: 2rem; font-weight: 800; margin: 0 0 0.9rem 0; color: #38bdf8; }
+.cardBadge { font-size: 0.75rem; padding: 0.25rem 0.7rem; border-radius: 999px; font-weight: 700; display: inline-block; }
+.optimo { background: #0f766e; color: #ccfbf1; }
+.alto { background: #075985; color: #e0f2fe; }
+.estable { background: #854d0e; color: #fef9c3; }
+.critico { background: #991b1b; color: #fee2e2; }
