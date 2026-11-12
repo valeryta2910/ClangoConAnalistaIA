@@ -1,8 +1,19 @@
 // api/analizar.ts — responde en la ruta /api/analizar
 // Nota: en api/ los import entre archivos llevan la extensión .js (aunque el archivo sea .ts)
 // porque el proyecto usa módulos ES ("type": "module") y Node lo exige en Vercel.
-import { consultarIA, formatearIndicadores } from './_adaptadores.js';
-import type { IndicadorEntrada } from './_adaptadores.js';
+import { consultarIA, formatearIndicadores, ErrorIA } from './_adaptadores.js';
+import type { CodigoErrorIA, IndicadorEntrada } from './_adaptadores.js';
+
+// Qué le decimos al navegador según lo que falló (sin revelar la clave ni detalles internos)
+const RESPUESTAS_ERROR: Record<CodigoErrorIA, { status: number; mensaje: string }> = {
+  CLAVE_NO_CONFIGURADA: { status: 500, mensaje: 'El servidor no tiene configurada la API Key de Gemini.' },
+  API_KEY_INVALIDA: { status: 502, mensaje: 'La API Key de Gemini no es válida o fue rechazada.' },
+  MODELO_NO_ENCONTRADO: { status: 502, mensaje: 'El modelo de IA no está disponible o no existe.' },
+  CUOTA_AGOTADA: { status: 429, mensaje: 'Se alcanzó el límite de uso de la IA. Intenta de nuevo en unos minutos.' },
+  CONEXION: { status: 504, mensaje: 'No se pudo conectar con Gemini o tardó demasiado en responder.' },
+  RESPUESTA_VACIA: { status: 502, mensaje: 'La IA no devolvió una respuesta. Intenta de nuevo.' },
+  ERROR_GEMINI: { status: 502, mensaje: 'El servicio de IA no respondió.' },
+};
 
 // Instrucciones para el modelo, adaptadas al dominio de CLANGo
 // (carpooling universitario: conductores que comparten viaje con otros estudiantes en Pasto)
@@ -43,7 +54,9 @@ export default {
     } catch (error) {
       // El detalle se ve en la terminal o en los logs de Vercel, NO en el navegador
       console.error(error);
-      return Response.json({ error: 'El servicio de IA no respondió' }, { status: 502 });
+      const codigo: CodigoErrorIA = error instanceof ErrorIA ? error.codigo : 'ERROR_GEMINI';
+      const { status, mensaje } = RESPUESTAS_ERROR[codigo];
+      return Response.json({ error: mensaje, codigo }, { status });
     }
   },
 };

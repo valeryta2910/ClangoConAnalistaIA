@@ -30,7 +30,14 @@ export async function analizarIndicadores(
   }
 
   // Recuerda: fetch NO lanza error con 4xx o 5xx; hay que revisar res.ok
-  if (!res.ok) throw new Error(mensajeSegunEstado(res.status));
+  if (!res.ok) {
+    // Nuestro backend explica qué falló (API Key, modelo, conexión...) en { error, codigo }
+    const cuerpo = await res.json().catch(() => null);
+    if (cuerpo && typeof cuerpo.codigo === 'string' && typeof cuerpo.error === 'string') {
+      throw new Error(cuerpo.error);
+    }
+    throw new Error(mensajeSegunEstado(res.status));
+  }
 
   const datos = await res.json();
   return datos.texto;
