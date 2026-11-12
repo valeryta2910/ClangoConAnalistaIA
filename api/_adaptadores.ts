@@ -8,7 +8,7 @@ export type MensajeIA = { rol: 'user' | 'assistant'; contenido: string };
 export type IndicadorEntrada = { titulo: unknown; valor: unknown; estado: unknown };
 
 // Modelo fijo. La clave se lee SOLO de la variable de entorno GEMINI_API_KEY (configurada en Vercel).
-const MODELO = 'gemini-2.5-flash';
+const MODELO = 'gemini-3.5-flash';
 const URL_BASE = 'https://generativelanguage.googleapis.com/v1beta/models';
 const TIEMPO_MAXIMO_MS = 25_000; // si Gemini no responde en 25 s, se cancela
 
